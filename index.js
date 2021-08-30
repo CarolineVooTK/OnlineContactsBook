@@ -1,12 +1,14 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const cors = require('cors');
+require('dotenv').config();
+
+const authRouer = require('./routes/auth');
 
 // connect to database
 const connectDB = async () => {
   try {
     await mongoose.connect(
-      'mongodb+srv://davinci:davinci@davinci.gfolr.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
+      `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@davinci.gfolr.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`,
       {
         useNewUrlParser: true,
         useUnifiedTopology: true,
@@ -22,13 +24,9 @@ const connectDB = async () => {
 connectDB();
 
 const app = express();
-
-// use middlewares
 app.use(express.json());
-app.use(cors);
 
-// routes
-app.get('/', (req, res) => res.send('this works'));
+app.use('/api/auth', authRouer);
 
 const PORT = 5000;
 
