@@ -1,9 +1,10 @@
 const express = require('express');
 const argon2 = require('argon2');
 const jwt = require('jsonwebtoken');
+const User = require('../models/User');
+const verifyToken = require('../middleware/auth');
 
 const router = express.Router();
-const User = require('../models/User');
 
 // @route POST api/auth/register
 // @desc register user
@@ -104,6 +105,30 @@ router.post('/login', async (req, res) => {
   } catch (error) {
     console.log(error);
     res.status(500).json({ success: false, message: 'Internal server error' });
+  }
+});
+
+// @route PUT api/auth/update-password
+// @desc Update user passwrod
+// @access private
+router.put('/update-password', verifyToken, async (req, res) => {
+  const { userId } = req;
+  const { password } = req.body;
+  // Simple validation of user input
+  if (!password) {
+    return res
+      .status(400)
+      .json({ success: false, message: 'Password is missing' });
+  }
+  const newHashedPassword = await argon2.hash(password);
+  try {
+    await User.updateOne({ _id: userId }, { password: newHashedPassword });
+    return res.status(200).json({ success: true, message: 'Password changed' });
+  } catch (error) {
+    console.log(error);
+    return res
+      .status(400)
+      .json({ success: false, message: 'Internal server error' });
   }
 });
 
