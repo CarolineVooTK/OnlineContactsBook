@@ -8,7 +8,7 @@ const router = express.Router();
 
 // @route POST api/auth/register
 // @desc register user
-// @access public
+// @access Public
 router.post('/register', async (req, res) => {
   const { username, password, email } = req.body;
 
@@ -61,7 +61,7 @@ router.post('/register', async (req, res) => {
 
 // @route POST api/auth/login
 // @desc Login user
-// @access public
+// @access Public
 router.post('/login', async (req, res) => {
   const { username, password } = req.body;
 
@@ -110,7 +110,7 @@ router.post('/login', async (req, res) => {
 
 // @route PUT api/auth/update-password
 // @desc Update user passwrod
-// @access private
+// @access Private
 router.put('/update-password', verifyToken, async (req, res) => {
   const { userId } = req;
   const { password } = req.body;
@@ -124,6 +124,26 @@ router.put('/update-password', verifyToken, async (req, res) => {
   try {
     await User.updateOne({ _id: userId }, { password: newHashedPassword });
     return res.status(200).json({ success: true, message: 'Password changed' });
+  } catch (error) {
+    console.log(error);
+    return res
+      .status(400)
+      .json({ success: false, message: 'Internal server error' });
+  }
+});
+
+// @route DELETE api/auth/delete-user
+// @desc Delete user passwrod
+// @access Private
+router.delete('/delete-user', verifyToken, async (req, res) => {
+  try {
+    const deletedUser = await User.findOneAndRemove({ _id: req.userId });
+    if (!deletedUser) {
+      return res
+        .status(401)
+        .json({ success: false, message: 'User not found' });
+    }
+    return res.status(200).json({ success: true, message: 'User deleted' });
   } catch (error) {
     console.log(error);
     return res
