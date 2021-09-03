@@ -2,7 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 require("dotenv").config();
 
-const authRouer = require("./routes/authRoutes");
+const authRouter = require("./routes/authRoutes");
 
 // connect to database (TESTING COMMIT)
 const connectDB = async () => {
@@ -26,7 +26,7 @@ connectDB();
 const app = express();
 app.use(express.json());
 
-app.use("/api/auth", authRouer);
+app.use("/api/auth", authRouter);
 
 const PORT = 5000;
 
