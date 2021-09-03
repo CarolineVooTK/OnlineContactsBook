@@ -4,7 +4,7 @@ require('dotenv').config();
 
 const authRouer = require('./routes/auth');
 
-// connect to database
+// connect to database (TESTING COMMIT)
 const connectDB = async () => {
   try {
     await mongoose.connect(
