@@ -1,8 +1,10 @@
 const express = require('express');
 const mongoose = require('mongoose');
-require('dotenv').config();
-
 const userRouter = require('./routes/userRoutes');
+const contactRouter = require('./routes/contactRoutes');
+const categoryRouter = require('./routes/categoryRoutes');
+
+require('dotenv').config();
 
 // connect to database (TESTING COMMIT)
 const connectDB = async () => {
@@ -27,6 +29,8 @@ const app = express();
 app.use(express.json());
 
 app.use('/api/user', userRouter);
+app.use('/api/contact', contactRouter);
+app.use('/api/category', categoryRouter);
 
 const PORT = 5000;
 
