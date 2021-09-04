@@ -1,8 +1,8 @@
-const express = require("express");
-const mongoose = require("mongoose");
-require("dotenv").config();
+const express = require('express');
+const mongoose = require('mongoose');
+require('dotenv').config();
 
-const authRouter = require("./routes/authRoutes");
+const userRouter = require('./routes/userRoutes');
 
 // connect to database (TESTING COMMIT)
 const connectDB = async () => {
@@ -11,11 +11,11 @@ const connectDB = async () => {
       `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@davinci.gfolr.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`,
       {
         useNewUrlParser: true,
-        useUnifiedTopology: true
-      }
+        useUnifiedTopology: true,
+      },
     );
 
-    console.log("MongoDB connected");
+    console.log('MongoDB connected');
   } catch (error) {
     console.log(error.message);
     process.exit(1);
@@ -26,7 +26,7 @@ connectDB();
 const app = express();
 app.use(express.json());
 
-app.use("/api/auth", authRouter);
+app.use('/api/user', userRouter);
 
 const PORT = 5000;
 
