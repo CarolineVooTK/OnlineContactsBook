@@ -1,10 +1,13 @@
+const dotenv = require('dotenv');
 const express = require('express');
 const mongoose = require('mongoose');
+const morgan = require('morgan');
+
 const userRouter = require('./routes/userRoutes');
 const contactRouter = require('./routes/contactRoutes');
 const categoryRouter = require('./routes/categoryRoutes');
 
-require('dotenv').config({ path: './config.env' });
+dotenv.config({ path: './config.env' });
 
 // connect to database (TESTING COMMIT)
 const connectDB = async () => {
@@ -14,7 +17,7 @@ const connectDB = async () => {
       {
         useNewUrlParser: true,
         useUnifiedTopology: true,
-      },
+      }
     );
     console.log('MongoDB connected');
   } catch (error) {
@@ -25,6 +28,11 @@ const connectDB = async () => {
 connectDB();
 
 const app = express();
+
+// Log requests
+if (process.env.NODE_ENV === 'development') {
+  app.use(morgan('dev'));
+}
 app.use(express.json());
 
 app.use('/api/user', userRouter);
