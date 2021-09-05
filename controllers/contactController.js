@@ -1,32 +1,24 @@
-const createContact = async (req, res) => {
+exports.createContact = async (req, res) => {
   // add logic
   res.send('route under development');
 };
 
-const getAllContact = async (req, res) => {
+exports.getAllContact = async (req, res) => {
   // add logic
   res.send('route under development');
 };
 
-const getOneContact = async (req, res) => {
+exports.getContact = async (req, res) => {
   // add logic
   res.send('route under development');
 };
 
-const updateContact = async (req, res) => {
+exports.updateContact = async (req, res) => {
   // add logic
   res.send('route under development');
 };
 
-const deleteContact = async (req, res) => {
+exports.deleteContact = async (req, res) => {
   // add logic
   res.send('route under development');
-};
-
-module.exports = {
-  createContact,
-  getAllContact,
-  getOneContact,
-  updateContact,
-  deleteContact,
 };

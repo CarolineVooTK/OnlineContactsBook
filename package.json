@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
+    "start": "nodemon index.js",
+    "start:prod": "NODE-ENV=production node index.js",
     "server": "nodemon index"
   },
   "keywords": [],
@@ -29,6 +30,7 @@
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^6.0.2"
+    "mongoose": "^6.0.2",
+    "morgan": "^1.10.0"
   }
 }

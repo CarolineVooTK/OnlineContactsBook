@@ -12,7 +12,7 @@
   },
   "rules": {
     "linebreak-style": "off",
-    "prettier/prettier": "error",
+    "prettier/prettier": "off",
     "spaced-comment": "off",
     "no-console": "warn",
     "consistent-return": "off",
