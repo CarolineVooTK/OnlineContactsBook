@@ -22,11 +22,11 @@ const ContactSchema = new mongoose.Schema({
     type: [String],
     default: []
   },
-  owner: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'users',
-    required: [true, 'A contact must have an owner']
-  },
+  // owner: {
+  //   type: mongoose.Schema.Types.ObjectId,
+  //   ref: 'users',
+  //   required: [true, 'A contact must have an owner']
+  // },
   last_viewed: {
     type: Date,
     default: Date.now
