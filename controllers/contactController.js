@@ -8,7 +8,7 @@ const getAllContact = async (req, res) => {
   res.send('route under development');
 };
 
-const getOneContact = async (req, res) => {
+const getContact = async (req, res) => {
   // add logic
   res.send('route under development');
 };
@@ -26,7 +26,7 @@ const deleteContact = async (req, res) => {
 module.exports = {
   createContact,
   getAllContact,
-  getOneContact,
+  getContact,
   updateContact,
   deleteContact,
 };

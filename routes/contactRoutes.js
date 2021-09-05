@@ -1,38 +1,27 @@
 const express = require('express');
 const verifyToken = require('../middleware/auth');
-const {
-  createContact,
-  getAllContact,
-  getOneContact,
-  updateContact,
-  deleteContact,
-} = require('../controllers/contactController');
+const contactController = require('../controllers/contactController');
 
 const router = express.Router();
 
-// @route POST api/contact/create
-// @desc create contact
-// @access Private
-router.post('/create', verifyToken, createContact);
+// Authenticate access
+router.use(verifyToken);
 
-// @route GET api/contact/get-all
-// @desc get all contacts
+// @route POST/GET api/contact/
+// @desc create contact or get all contacts
 // @access Private
-router.get('/get-all', verifyToken, getAllContact);
+router
+  .route('/')
+  .post(contactController.createContact)
+  .get(contactController.getAllContact);
 
-// @route GET api/contact/get-one/:id
-// @desc get a contact
+// @route GET/PUT/DELETE api/contact/:id
+// @desc get, update, or delete a contact
 // @access Private
-router.get('/get-one/:id', verifyToken, getOneContact);
-
-// @route PUT api/contact/update/:id
-// @desc update contact
-// @access Private
-router.put('/update/:id', verifyToken, updateContact);
-
-// @route POST api/contact/delete/:id
-// @desc delete contact
-// @access Private
-router.delete('/delete/:id', verifyToken, deleteContact);
+router
+  .route('/:id')
+  .get(contactController.getContact)
+  .put(contactController.updateContact)
+  .delete(contactController.deleteContact);
 
 module.exports = router;
