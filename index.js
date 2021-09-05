@@ -4,7 +4,7 @@ const userRouter = require('./routes/userRoutes');
 const contactRouter = require('./routes/contactRoutes');
 const categoryRouter = require('./routes/categoryRoutes');
 
-require('dotenv').config();
+require('dotenv').config({ path: './config.env' });
 
 // connect to database (TESTING COMMIT)
 const connectDB = async () => {
