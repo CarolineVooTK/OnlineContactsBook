@@ -14,7 +14,7 @@ if (process.env.NODE_ENV === 'development') {
 app.use(express.json());
 
 app.use('/api/user', userRouter);
-app.use('/api/contact', contactRouter);
-app.use('/api/category', categoryRouter);
+app.use('/api/contacts', contactRouter);
+app.use('/api/categories', categoryRouter);
 
 module.exports = app;

@@ -5,7 +5,7 @@ const contactController = require('../controllers/contactController');
 const router = express.Router();
 
 // Authenticate access
-router.use(verifyToken);
+// router.use(verifyToken);
 
 // @route POST/GET api/contact/
 // @desc create contact or get all contacts

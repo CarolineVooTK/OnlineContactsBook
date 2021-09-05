@@ -29,22 +29,22 @@ const registerUser = async (req, res) => {
     const newUser = new User({
       username,
       password: hashedPassword,
-      email,
+      email
     });
     await newUser.save();
 
     // Return access token
     const accessToken = jwt.sign(
       {
-        userId: newUser._id,
+        userId: newUser._id
       },
-      process.env.ACCESS_TOKEN_SECRET,
+      process.env.ACCESS_TOKEN_SECRET
     );
 
     return res.json({
       success: true,
       message: 'User created successfully',
-      accessToken,
+      accessToken
     });
   } catch (error) {
     console.log(error);
@@ -82,15 +82,15 @@ const loginUser = async (req, res) => {
     // Valid username and password, return access token
     const accessToken = jwt.sign(
       {
-        userId: user._id,
+        userId: user._id
       },
-      process.env.ACCESS_TOKEN_SECRET,
+      process.env.ACCESS_TOKEN_SECRET
     );
 
     return res.json({
       success: true,
       message: 'User logged in successfully',
-      accessToken,
+      accessToken
     });
   } catch (error) {
     console.log(error);
@@ -132,7 +132,7 @@ const deleteUser = async (req, res) => {
     console.log(error);
     return res
       .status(400)
-      .json({ sucess: false, message: 'Internal server error' });
+      .json({ success: false, message: 'Internal server error' });
   }
 };
 
@@ -140,5 +140,5 @@ module.exports = {
   registerUser,
   loginUser,
   updatePassword,
-  deleteUser,
+  deleteUser
 };
