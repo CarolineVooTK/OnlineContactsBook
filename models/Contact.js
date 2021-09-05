@@ -4,37 +4,37 @@ const ContactSchema = new mongoose.Schema({
   name: {
     type: String,
     required: [true, 'A contact must have name'],
-    trim: true,
+    trim: true
   },
   email: {
     type: String,
-    trim: true,
+    trim: true
   },
   phone_number: {
     type: String,
-    trim: true,
+    trim: true
   },
   company: {
     type: String,
-    trim: true,
+    trim: true
   },
   category: {
     type: [String],
-    default: [],
+    default: []
   },
   owner: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'users',
-    required: [true, 'A contact must have an owner'],
+    required: [true, 'A contact must have an owner']
   },
   last_viewed: {
     type: Date,
-    default: Date.now,
+    default: Date.now
   },
   createdAt: {
     type: Date,
-    default: Date.now,
-  },
+    default: Date.now
+  }
 });
 
 const Contact = mongoose.model('contacts', ContactSchema);

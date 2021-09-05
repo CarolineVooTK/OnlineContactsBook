@@ -1,11 +1,5 @@
 const dotenv = require('dotenv');
-const express = require('express');
 const mongoose = require('mongoose');
-const morgan = require('morgan');
-
-const userRouter = require('./routes/userRoutes');
-const contactRouter = require('./routes/contactRoutes');
-const categoryRouter = require('./routes/categoryRoutes');
 
 dotenv.config({ path: './config.env' });
 
@@ -27,18 +21,7 @@ const connectDB = async () => {
 };
 connectDB();
 
-const app = express();
-
-// Log requests
-if (process.env.NODE_ENV === 'development') {
-  app.use(morgan('dev'));
-}
-app.use(express.json());
-
-app.use('/api/user', userRouter);
-app.use('/api/contact', contactRouter);
-app.use('/api/category', categoryRouter);
+const app = require('./app');
 
 const PORT = 5000;
-
 app.listen(PORT, () => console.log(`Server started on port: ${PORT}`));
