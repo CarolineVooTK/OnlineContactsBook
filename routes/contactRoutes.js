@@ -13,7 +13,7 @@ const router = express.Router();
 router
   .route('/')
   .post(contactController.createContact)
-  .get(contactController.getAllContacts);
+  .get(contactController.getContacts);
 
 // @route GET/PUT/DELETE api/contact/:id
 // @desc get, update, or delete a contact

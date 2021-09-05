@@ -16,43 +16,70 @@ exports.createContact = async (req, res) => {
   }
 };
 
-exports.getAllContacts = async (req, res) => {
+exports.getContacts = async (req, res) => {
   try {
-    const contacts = await Contact.find();
+    const contacts = await Contact.find(req.body);
 
-    res.status(201).json({
+    res.status(200).json({
       status: 'success',
       results: contacts.length,
       message: { contacts }
     });
   } catch (err) {
-    res.status(501).json({
-      status: 'error',
+    res.status(404).json({
+      status: 'fail',
       message: err
     });
   }
 };
 
 exports.getContact = async (req, res) => {
-  // add logic
-  res.status(501).json({
-    status: 'error',
-    message: 'Route under development.'
-  });
+  try {
+    const contact = await Contact.findById(req.params.id);
+
+    res.status(200).json({
+      status: 'success',
+      message: { contact }
+    });
+  } catch (err) {
+    res.status(404).json({
+      status: 'fail',
+      message: err
+    });
+  }
 };
 
 exports.updateContact = async (req, res) => {
-  // add logic
-  res.status(501).json({
-    status: 'error',
-    message: 'Route under development.'
-  });
+  try {
+    const contact = await Contact.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+      runValidators: true
+    });
+
+    res.status(200).json({
+      status: 'success',
+      message: { contact }
+    });
+  } catch (err) {
+    res.status(404).json({
+      status: 'fail',
+      message: err
+    });
+  }
 };
 
 exports.deleteContact = async (req, res) => {
-  // add logic
-  res.status(501).json({
-    status: 'error',
-    message: 'Route under development.'
-  });
+  try {
+    const contact = await Contact.findByIdAndDelete(req.params.id);
+
+    res.status(204).json({
+      status: 'success',
+      message: { contact }
+    });
+  } catch (err) {
+    res.status(404).json({
+      status: 'fail',
+      message: err
+    });
+  }
 };
