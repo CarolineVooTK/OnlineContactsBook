@@ -1,32 +1,56 @@
-const createCategory = async (req, res) => {
-  // add logic
-  res.send('route under development');
+const Category = require('../models/Category');
+
+exports.createCategory = async (req, res) => {
+  try {
+    const newCategory = await Category.create(req.body);
+    res.status(201).json({
+      status: 'success',
+      data: { category: newCategory }
+    });
+  } catch (err) {
+    res.status(400).json({
+      status: 'error',
+      message: err
+    });
+  }
 };
 
-const getAllCategory = async (req, res) => {
-  // add logic
-  res.send('route under development');
+exports.getCategories = async (req, res) => {
+  try {
+    const categories = await Category.find();
+    res.status(200).json({
+      status: 'success',
+      results: categories.length,
+      message: { categories }
+    });
+  } catch (err) {
+    res.status(404).json({
+      status: 'fail',
+      message: err
+    });
+  }
 };
 
-const getOneCategory = async (req, res) => {
+exports.getCategory = async (req, res) => {
   // add logic
-  res.send('route under development');
+  res.status(501).json({
+    status: 'error',
+    message: 'route under development'
+  });
 };
 
-const updateCategory = async (req, res) => {
+exports.updateCategory = async (req, res) => {
   // add logic
-  res.send('route under development');
+  res.status(501).json({
+    status: 'error',
+    message: 'route under development'
+  });
 };
 
-const deleteCategory = async (req, res) => {
+exports.deleteCategory = async (req, res) => {
   // add logic
-  res.send('route under development');
-};
-
-module.exports = {
-  createCategory,
-  getAllCategory,
-  getOneCategory,
-  updateCategory,
-  deleteCategory,
+  res.status(501).json({
+    status: 'error',
+    message: 'route under development'
+  });
 };
