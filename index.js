@@ -6,8 +6,8 @@ dotenv.config({ path: './config.env' });
 const username = process.env.DB_USERNAME;
 const password = process.env.DB_PASSWORD;
 const DB = process.env.DB.replace(
-  '<USERNAME>:$<PASSWORD>',
-  `${username}:$${password}`
+  '<USERNAME>:<PASSWORD>',
+  `${username}:${password}`
 );
 
 // connect to database (TESTING COMMIT)
