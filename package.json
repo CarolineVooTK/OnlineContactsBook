@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js",
+    "start": "node index.js",
     "start:prod": "NODE-ENV=production node index.js",
-    "server": "nodemon index"
+    "dev": "nodemon index"
   },
   "keywords": [],
   "author": "",
