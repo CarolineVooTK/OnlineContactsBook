@@ -19,7 +19,10 @@ exports.createContact = async (req, res) => {
 
 exports.getAllContacts = async (req, res) => {
   try {
-    const features = new APIFeatures(Contact.find(), req.query).filter();
+    const features = new APIFeatures(Contact.find(), req.query)
+      .filter()
+      .sort()
+      .limitFields();
 
     const contacts = await features.query;
 

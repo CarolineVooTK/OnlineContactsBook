@@ -31,7 +31,7 @@ const ContactSchema = new mongoose.Schema({
   //   ref: 'users',
   //   required: [true, 'A contact must have an owner']
   // },
-  last_viewed: {
+  lastViewed: {
     type: Date,
     default: Date.now
   },
