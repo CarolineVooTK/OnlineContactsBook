@@ -10,7 +10,11 @@ const ContactSchema = new mongoose.Schema({
     type: String,
     trim: true
   },
-  phone_number: {
+  phoneNumber: {
+    type: String,
+    trim: true
+  },
+  job: {
     type: String,
     trim: true
   },

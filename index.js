@@ -2,6 +2,7 @@ const dotenv = require('dotenv');
 const mongoose = require('mongoose');
 
 dotenv.config({ path: './config.env' });
+const app = require('./app');
 
 const username = process.env.DB_USERNAME;
 const password = process.env.DB_PASSWORD;
@@ -24,8 +25,6 @@ const connectDB = async () => {
   }
 };
 connectDB();
-
-const app = require('./app');
 
 const { PORT } = process.env;
 app.listen(PORT, () => {
