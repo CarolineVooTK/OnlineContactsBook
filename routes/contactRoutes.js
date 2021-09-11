@@ -21,7 +21,7 @@ router
 router
   .route('/:id')
   .get(contactController.getContact)
-  .put(contactController.updateContact)
+  .patch(contactController.updateContact)
   .delete(contactController.deleteContact);
 
 module.exports = router;
