@@ -34,23 +34,29 @@ exports.getCategories = async (req, res) => {
 exports.getCategory = async (req, res) => {
   try {
     const category = await Category.findById(req.params.id);
-
-    if (category) {
-      res.status(200).json({
-        status: 'success',
-        message: { category }
-      });
-    } else {
+    if (!category) {
       res.status(404).json({
         status: 'fail',
         message: 'Category not found'
       });
+    } else {
+      res.status(200).json({
+        status: 'success',
+        message: { category }
+      });
     }
   } catch (err) {
-    res.status(404).json({
-      status: 'fail',
-      message: err
-    });
+    if (err.name === 'CastError') {
+      res.status(404).json({
+        status: 'fail',
+        message: 'Category not found'
+      });
+    } else {
+      res.status(404).json({
+        status: 'fail',
+        message: err
+      });
+    }
   }
 };
 
@@ -66,10 +72,17 @@ exports.updateCategory = async (req, res) => {
       message: { contact }
     });
   } catch (err) {
-    res.status(404).json({
-      status: 'fail',
-      message: err
-    });
+    if (err.name === 'CastError') {
+      res.status(404).json({
+        status: 'fail',
+        message: 'Category not found'
+      });
+    } else {
+      res.status(404).json({
+        status: 'fail',
+        message: err
+      });
+    }
   }
 };
 
