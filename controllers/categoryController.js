@@ -34,42 +34,73 @@ exports.getCategories = async (req, res) => {
 exports.getCategory = async (req, res) => {
   try {
     const category = await Category.findById(req.params.id);
-
-    if (category) {
-      res.status(200).json({
-        status: 'success',
-        message: { category }
-      });
-    } else {
+    if (!category) {
       res.status(404).json({
         status: 'fail',
         message: 'Category not found'
       });
+    } else {
+      res.status(200).json({
+        status: 'success',
+        message: { category }
+      });
     }
   } catch (err) {
-    res.status(404).json({
-      status: 'fail',
-      message: err
-    });
+    if (err.name === 'CastError') {
+      res.status(404).json({
+        status: 'fail',
+        message: 'Category not found'
+      });
+    } else {
+      res.status(404).json({
+        status: 'fail',
+        message: err
+      });
+    }
   }
 };
 
 exports.updateCategory = async (req, res) => {
-  try {
-    const contact = await Category.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-      runValidators: true
-    });
-
-    res.status(200).json({
-      status: 'success',
-      message: { contact }
-    });
-  } catch (err) {
-    res.status(404).json({
+  const { name } = req.body;
+  if (!name) {
+    return res.status(404).json({
       status: 'fail',
-      message: err
+      message: 'Missing name'
     });
+  }
+  try {
+    const category = await Category.findByIdAndUpdate(
+      req.params.id,
+      { name: name },
+      {
+        new: true,
+        runValidators: true
+      }
+    );
+
+    if (!category) {
+      res.status(404).json({
+        status: 'fail',
+        message: 'Category not found'
+      });
+    } else {
+      res.status(200).json({
+        status: 'success',
+        message: { category }
+      });
+    }
+  } catch (err) {
+    if (err.name === 'CastError') {
+      res.status(404).json({
+        status: 'fail',
+        message: 'Category not found'
+      });
+    } else {
+      res.status(404).json({
+        status: 'fail',
+        message: err
+      });
+    }
   }
 };
 
@@ -77,14 +108,21 @@ exports.deleteCategory = async (req, res) => {
   try {
     const contact = await Category.findByIdAndDelete(req.params.id);
 
-    res.status(204).json({
+    res.status(200).json({
       status: 'success',
       message: { contact }
     });
   } catch (err) {
-    res.status(404).json({
-      status: 'fail',
-      message: err
-    });
+    if (err.name === 'CastError') {
+      res.status(404).json({
+        status: 'fail',
+        message: 'Category not found'
+      });
+    } else {
+      res.status(404).json({
+        status: 'fail',
+        message: err
+      });
+    }
   }
 };

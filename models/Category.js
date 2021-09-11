@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const uniqueValidator = require('mongoose-unique-validator');
 
 const { Schema } = mongoose;
 
@@ -20,6 +21,6 @@ const CategorySchema = new Schema({
     default: Date.now
   }
 });
-
+CategorySchema.plugin(uniqueValidator, { message: '{PATH} must be unique' });
 const Category = mongoose.model('Categories', CategorySchema);
 module.exports = Category;
