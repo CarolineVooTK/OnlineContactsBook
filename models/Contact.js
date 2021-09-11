@@ -26,7 +26,7 @@ const ContactSchema = new mongoose.Schema({
       validator: function (val) {
         return val.match(/^[0-9\-+]+$/);
       },
-      message: 'Invalid phone no. ({VALUE})'
+      message: 'A phone no. must only contain numbers, +, and -'
     }
   },
   job: {
