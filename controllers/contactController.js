@@ -22,7 +22,8 @@ exports.getAllContacts = async (req, res) => {
     const features = new APIFeatures(Contact.find(), req.query)
       .filter()
       .sort()
-      .limitFields();
+      .limitFields()
+      .paginate();
 
     const contacts = await features.query;
 
