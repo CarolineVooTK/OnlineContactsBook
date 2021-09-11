@@ -1,4 +1,5 @@
 const APIFeatures = require('../utils/apiFeatures');
+const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
 const Contact = require('../models/Contact');
 
@@ -22,6 +23,10 @@ exports.getAllContacts = catchAsync(async (req, res, next) => {
 exports.getContact = catchAsync(async (req, res, next) => {
   const contact = await Contact.findById(req.params.id);
 
+  if (!contact) {
+    return next(new AppError('No contact found with that ID', 404));
+  }
+
   res.status(200).json({
     status: 'success',
     message: { contact }
@@ -43,6 +48,10 @@ exports.updateContact = catchAsync(async (req, res, next) => {
     runValidators: true
   });
 
+  if (!contact) {
+    return next(new AppError('No contact found with that ID', 404));
+  }
+
   res.status(200).json({
     status: 'success',
     message: { contact }
@@ -52,8 +61,12 @@ exports.updateContact = catchAsync(async (req, res, next) => {
 exports.deleteContact = catchAsync(async (req, res, next) => {
   const contact = await Contact.findByIdAndDelete(req.params.id);
 
+  if (!contact) {
+    return next(new AppError('No contact found with that ID', 404));
+  }
+
   res.status(204).json({
     status: 'success',
-    message: { contact }
+    message: null
   });
 });
