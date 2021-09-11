@@ -56,6 +56,7 @@ const ContactSchema = new mongoose.Schema({
   lastViewed: {
     type: Date,
     default: Date.now,
+    // TODO: to update when getting a contact
     validate: [validator.isDate, 'Invalid date ({VALUE})']
   },
   createdAt: {
