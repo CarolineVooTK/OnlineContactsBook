@@ -1,3 +1,4 @@
+const APIFeatures = require('../utils/apiFeatures');
 const Contact = require('../models/Contact');
 
 exports.createContact = async (req, res) => {
@@ -16,10 +17,17 @@ exports.createContact = async (req, res) => {
   }
 };
 
-exports.getContacts = async (req, res) => {
+exports.getAllContacts = async (req, res) => {
   try {
-    const contacts = await Contact.find(req.body);
+    // Execute query.
+    const features = new APIFeatures(Contact.find(), req.query)
+      .filter()
+      .sort()
+      .limitFields()
+      .paginate();
+    const contacts = await features.query;
 
+    // Send response.
     res.status(200).json({
       status: 'success',
       results: contacts.length,

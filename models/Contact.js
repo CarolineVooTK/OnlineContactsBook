@@ -10,7 +10,11 @@ const ContactSchema = new mongoose.Schema({
     type: String,
     trim: true
   },
-  phone_number: {
+  phoneNumber: {
+    type: String,
+    trim: true
+  },
+  job: {
     type: String,
     trim: true
   },
@@ -27,7 +31,7 @@ const ContactSchema = new mongoose.Schema({
   //   ref: 'users',
   //   required: [true, 'A contact must have an owner']
   // },
-  last_viewed: {
+  lastViewed: {
     type: Date,
     default: Date.now
   },
