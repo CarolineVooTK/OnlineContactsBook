@@ -13,7 +13,7 @@ const router = express.Router();
 router
   .route('/')
   .post(categoryController.createCategory)
-  .get(categoryController.getCategories);
+  .get(categoryController.getAllCategories);
 
 // @route GET|PUT|DELETE api/categories/:id
 // @desc get, update, or delete a category
