@@ -1,66 +1,41 @@
 const Category = require('../models/Category');
+const APIFeatures = require('../utils/apiFeatures');
+const AppError = require('../utils/appError');
+const catchAsync = require('../utils/catchAsync');
 
-exports.createCategory = async (req, res) => {
-  try {
-    const newCategory = await Category.create(req.body);
-    res.status(201).json({
-      status: 'success',
-      data: { category: newCategory }
-    });
-  } catch (err) {
-    res.status(400).json({
-      status: 'error',
-      message: err
-    });
-  }
-};
+exports.getAllCategories = catchAsync(async (req, res, next) => {
+  const categories = await Category.find();
+  res.status(200).json({
+    status: 'success',
+    results: categories.length,
+    message: { categories }
+  });
+});
 
-exports.getAllCategories = async (req, res) => {
-  try {
-    const categories = await Category.find();
-    res.status(200).json({
-      status: 'success',
-      results: categories.length,
-      message: { categories }
-    });
-  } catch (err) {
+exports.getCategory = catchAsync(async (req, res, next) => {
+  const category = await Category.findById(req.params.id);
+  if (!category) {
     res.status(404).json({
       status: 'fail',
-      message: err
+      message: 'Category not found'
+    });
+  } else {
+    res.status(200).json({
+      status: 'success',
+      message: { category }
     });
   }
-};
+});
 
-exports.getCategory = async (req, res) => {
-  try {
-    const category = await Category.findById(req.params.id);
-    if (!category) {
-      res.status(404).json({
-        status: 'fail',
-        message: 'Category not found'
-      });
-    } else {
-      res.status(200).json({
-        status: 'success',
-        message: { category }
-      });
-    }
-  } catch (err) {
-    if (err.name === 'CastError') {
-      res.status(404).json({
-        status: 'fail',
-        message: 'Category not found'
-      });
-    } else {
-      res.status(404).json({
-        status: 'fail',
-        message: err
-      });
-    }
-  }
-};
+exports.createCategory = catchAsync(async (req, res, next) => {
+  const newCategory = await Category.create(req.body);
+  res.status(201).json({
+    status: 'success',
+    data: { category: newCategory }
+  });
+});
 
-exports.updateCategory = async (req, res) => {
+exports.updateCategory = catchAsync(async (req, res, next) => {
   const { name } = req.body;
   if (!name) {
     return res.status(404).json({
@@ -68,61 +43,33 @@ exports.updateCategory = async (req, res) => {
       message: 'Missing name'
     });
   }
-  try {
-    const category = await Category.findByIdAndUpdate(
-      req.params.id,
-      { name: name },
-      {
-        new: true,
-        runValidators: true
-      }
-    );
-
-    if (!category) {
-      res.status(404).json({
-        status: 'fail',
-        message: 'Category not found'
-      });
-    } else {
-      res.status(200).json({
-        status: 'success',
-        message: { category }
-      });
+  const category = await Category.findByIdAndUpdate(
+    req.params.id,
+    { name: name },
+    {
+      new: true,
+      runValidators: true
     }
-  } catch (err) {
-    if (err.name === 'CastError') {
-      res.status(404).json({
-        status: 'fail',
-        message: 'Category not found'
-      });
-    } else {
-      res.status(404).json({
-        status: 'fail',
-        message: err
-      });
-    }
-  }
-};
+  );
 
-exports.deleteCategory = async (req, res) => {
-  try {
-    const contact = await Category.findByIdAndDelete(req.params.id);
-
+  if (!category) {
+    res.status(404).json({
+      status: 'fail',
+      message: 'Category not found'
+    });
+  } else {
     res.status(200).json({
       status: 'success',
-      message: { contact }
+      message: { category }
     });
-  } catch (err) {
-    if (err.name === 'CastError') {
-      res.status(404).json({
-        status: 'fail',
-        message: 'Category not found'
-      });
-    } else {
-      res.status(404).json({
-        status: 'fail',
-        message: err
-      });
-    }
   }
-};
+});
+
+exports.deleteCategory = catchAsync(async (req, res, next) => {
+  const contact = await Category.findByIdAndDelete(req.params.id);
+
+  res.status(200).json({
+    status: 'success',
+    message: { contact }
+  });
+});
