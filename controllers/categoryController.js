@@ -14,17 +14,15 @@ exports.getAllCategories = catchAsync(async (req, res, next) => {
 
 exports.getCategory = catchAsync(async (req, res, next) => {
   const category = await Category.findById(req.params.id);
+
   if (!category) {
-    res.status(404).json({
-      status: 'fail',
-      message: 'Category not found'
-    });
-  } else {
-    res.status(200).json({
-      status: 'success',
-      message: { category }
-    });
+    return new AppError('There is no category with that ID', 404);
   }
+
+  res.status(200).json({
+    status: 'success',
+    message: { category }
+  });
 });
 
 exports.createCategory = catchAsync(async (req, res, next) => {
@@ -36,40 +34,37 @@ exports.createCategory = catchAsync(async (req, res, next) => {
 });
 
 exports.updateCategory = catchAsync(async (req, res, next) => {
-  const { name } = req.body;
-  if (!name) {
-    return res.status(404).json({
-      status: 'fail',
-      message: 'Missing name'
-    });
-  }
-  const category = await Category.findByIdAndUpdate(
-    req.params.id,
-    { name: name },
-    {
-      new: true,
-      runValidators: true
-    }
-  );
+  // const { name, color } = req.body;
+
+  // if (!name) {
+  //   return res.status(404).json({
+  //     status: 'fail',
+  //     message: 'Missing name'
+  //   });
+  // }
+  const category = await Category.findByIdAndUpdate(req.params.id, req.body, {
+    new: true,
+    runValidators: true
+  });
 
   if (!category) {
-    res.status(404).json({
-      status: 'fail',
-      message: 'Category not found'
-    });
-  } else {
-    res.status(200).json({
-      status: 'success',
-      message: { category }
-    });
+    return new AppError('There is no category with that ID', 404);
   }
+  res.status(200).json({
+    status: 'success',
+    message: { category }
+  });
 });
 
 exports.deleteCategory = catchAsync(async (req, res, next) => {
-  const contact = await Category.findByIdAndDelete(req.params.id);
+  const category = await Category.findByIdAndDelete(req.params.id);
+
+  if (!category) {
+    return new AppError('There is no category with that ID', 404);
+  }
 
   res.status(200).json({
     status: 'success',
-    message: { contact }
+    message: { category }
   });
 });
