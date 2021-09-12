@@ -4,7 +4,13 @@ const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
 
 exports.getAllCategories = catchAsync(async (req, res, next) => {
-  const categories = await Category.find();
+  // Execute query
+  const features = new APIFeatures(Category.find(), req.query)
+    .filter()
+    .sort('name')
+    .limitFields()
+    .paginate();
+  const categories = await features.query;
 
   res.status(200).json({
     status: 'success',

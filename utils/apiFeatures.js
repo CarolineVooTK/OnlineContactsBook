@@ -19,13 +19,12 @@ class APIFeatures {
     return this;
   }
 
-  sort() {
+  sort(defaultSortBy) {
     if (this.queryString.sort) {
       const sortBy = this.queryString.sort.split(',').join(' ');
       this.query = this.query.sort(sortBy);
     } else {
-      // Sort descending by 'createdAt'
-      this.query = this.query.sort('-createdAt');
+      this.query = this.query.sort(`${defaultSortBy}`);
     }
     return this;
   }
