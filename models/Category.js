@@ -1,26 +1,25 @@
 const mongoose = require('mongoose');
-const uniqueValidator = require('mongoose-unique-validator');
+const validator = require('validator');
 
-const { Schema } = mongoose;
-
-const CategorySchema = new Schema({
+const CategorySchema = new mongoose.Schema({
   name: {
     type: String,
     unique: true,
-    required: [true, 'A category must have a name']
+    required: [true, 'A category must have a name'],
+    maxlength: [255, 'A name must have less than or equal to 255 characters'],
+    validate: [validator.isAscii, 'Name must only contain ASCII characters']
   },
-  // color: {
-  //   type: String,
-  //   required: true,
-  //   validate(col) {
-  //     return col.startsWith('#', 0) && col.length === 7;
-  //   },
-  // },
+  color: {
+    type: String,
+    default: '#000000',
+    validate: [validator.isHexColor, 'Invalid hex colour']
+  },
   createdAt: {
     type: Date,
     default: Date.now
   }
 });
-CategorySchema.plugin(uniqueValidator, { message: '{PATH} must be unique' });
+
 const Category = mongoose.model('Categories', CategorySchema);
+
 module.exports = Category;
