@@ -12,7 +12,7 @@ const CategorySchema = new mongoose.Schema({
   color: {
     type: String,
     default: '#000000',
-    validate: [validator.isHexColor, 'Invalid hex colour']
+    validate: [validator.isHexColor, 'Invalid hex colour ({VALUE})']
   },
   createdAt: {
     type: Date,

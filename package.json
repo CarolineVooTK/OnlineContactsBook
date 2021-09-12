@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node index.js",
     "start:prod": "NODE_ENV=production nodemon index.js",
-    "dev": "nodemon index"
+    "debug": "sudo ndb index"
   },
   "keywords": [],
   "author": "",
@@ -21,6 +21,7 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-react": "^7.25.1",
+    "ndb": "^1.1.5",
     "nodemon": "^2.0.12",
     "prettier": "^2.3.2"
   },
