@@ -1,4 +1,5 @@
 const argon2 = require('argon2');
+const crypto = require('crypto');
 const mongoose = require('mongoose');
 const validator = require('validator');
 
@@ -44,6 +45,7 @@ UserSchema.pre('save', async function (next) {
   next();
 });
 
+// Check if password has been changed after JWT was issued.
 UserSchema.methods.passwordChangedAfterJWT = function (JWTTimestamp) {
   if (this.passwordChangedAt) {
     const changedTimestamp = parseInt(
@@ -53,6 +55,22 @@ UserSchema.methods.passwordChangedAfterJWT = function (JWTTimestamp) {
     return JWTTimestamp < changedTimestamp;
   }
   return false;
+};
+
+// Generate a random password reset token.
+UserSchema.methods.createPasswordResetToken = function () {
+  const resetToken = crypto.randomBytes(32).toString('hex');
+
+  // Encrypt reset token before saving to database.
+  this.passwordResetToken = crypto
+    .createHash('sha256')
+    .update(resetToken)
+    .digest('hex');
+
+  // Reset password expires in 10 min.
+  this.passwordResetExpires = Date.now() + 10 * 60 * 1000;
+
+  return resetToken;
 };
 
 module.exports = mongoose.model('users', UserSchema);
