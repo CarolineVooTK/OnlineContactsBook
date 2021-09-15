@@ -16,7 +16,8 @@ const UserSchema = new mongoose.Schema({
   password: {
     type: String,
     required: [true, 'Please provide your password'],
-    minlength: 8
+    minlength: 8,
+    select: false
   },
   passwordConfirm: {
     type: String,
@@ -26,10 +27,10 @@ const UserSchema = new mongoose.Schema({
         return el === this.password;
       },
       message: 'Passwords are not the same!'
-    },
-    passwordResetToken: String,
-    passwordResetExpires: Date
-  }
+    }
+  },
+  passwordResetToken: String,
+  passwordResetExpires: Date
 });
 
 // Encrypt password if it is modified.

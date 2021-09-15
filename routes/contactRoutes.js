@@ -15,7 +15,7 @@ router
   .post(contactController.createContact)
   .get(contactController.getAllContacts);
 
-// @route GET/PUT/DELETE api/contact/:id
+// @route GET/PATCH/DELETE api/contact/:id
 // @desc get, update, or delete a contact
 // @access Private
 router
