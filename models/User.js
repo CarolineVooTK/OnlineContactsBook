@@ -1,9 +1,8 @@
+const argon2 = require('argon2');
 const mongoose = require('mongoose');
 const validator = require('validator');
 
-const { Schema } = mongoose;
-
-const UserSchema = new Schema({
+const UserSchema = new mongoose.Schema({
   name: {
     type: String,
     required: [true, 'Please tell us your name']
@@ -27,8 +26,20 @@ const UserSchema = new Schema({
         return el === this.password;
       },
       message: 'Passwords are not the same!'
-    }
+    },
+    passwordResetToken: String,
+    passwordResetExpires: Date
   }
+});
+
+// Encrypt password if it is modified.
+UserSchema.pre('save', async function (next) {
+  // Only if password if modified
+  if (!this.isModified('password')) return next();
+
+  this.password = await argon2.hash(this.password);
+  this.passwordConfirm = undefined;
+  next();
 });
 
 module.exports = mongoose.model('users', UserSchema);
