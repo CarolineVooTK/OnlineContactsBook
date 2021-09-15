@@ -1,5 +1,6 @@
 const argon2 = require('argon2');
 const jwt = require('jsonwebtoken');
+const { promisify } = require('util');
 
 const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
@@ -10,7 +11,7 @@ const signToken = id =>
     expiresIn: process.env.JWT_EXPIRES_IN
   });
 
-const createAndSendToken = (res, id, message) => {
+const createAndSendToken = (id, res) => {
   const token = signToken(id);
 
   // Send token via cookie.
@@ -30,7 +31,6 @@ const createAndSendToken = (res, id, message) => {
   // Send response.
   res.status(200).json({
     status: 'success',
-    message,
     token
   });
 };
@@ -69,25 +69,33 @@ exports.login = catchAsync(async (req, res, next) => {
   }
 
   // 3) Sign and send token.
-  createAndSendToken(res, user.id, 'You have successfully logged in');
+  createAndSendToken(user.id, res);
 });
 
-exports.verifyToken = (req, res, next) => {
-  const authHeader = req.header('Authorization');
-  const token = authHeader && authHeader.split(' ')[1];
+exports.protect = catchAsync(async (req, res, next) => {
+  // 1) Get token.
+  let token;
+  if (
+    req.headers.authorization &&
+    req.headers.authorization.startsWith('Bearer')
+  ) {
+    token = req.headers.authorization.split(' ')[1];
+  }
 
+  // 2) Check if token exists.
   if (!token) {
-    return res
-      .status(401)
-      .json({ success: false, message: 'Access token not found' });
+    return next(
+      new AppError('You are not logged in! Please log in to get access', 401)
+    );
   }
 
-  try {
-    const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
-    req.userId = decoded.userId;
-    next();
-  } catch (error) {
-    console.log(error);
-    return res.status(403).json({ success: false, message: 'Invalid token' });
-  }
-};
+  // 3) Verify token.
+  const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
+
+  // 4) Check if user changed password after JWT was issued.
+  const user = await User.findById(decoded.id);
+
+  // Grant access to protected routes.
+  req.user = user;
+  next();
+});

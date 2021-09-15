@@ -1,11 +1,11 @@
 const express = require('express');
-// const verifyToken = require('../middleware/auth');
+const authController = require('../controllers/authController');
 const contactController = require('../controllers/contactController');
 
 const router = express.Router();
 
-// Authenticate access
-// router.use(verifyToken);
+// Protect access
+router.use(authController.protect);
 
 // @route POST/GET api/contact/
 // @desc create contact or get all contacts

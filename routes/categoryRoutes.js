@@ -1,11 +1,11 @@
 const express = require('express');
-// const verifyToken = require('../middleware/auth');
+const authController = require('../controllers/authController');
 const categoryController = require('../controllers/categoryController');
 
 const router = express.Router();
 
-// Authentication access
-// router.use(verifyToken);
+// Protect access
+router.use(authController.protect);
 
 // @route POST|GET api/categories/create
 // @desc create category or get categories
