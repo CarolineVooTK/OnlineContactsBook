@@ -1,25 +1,34 @@
 const mongoose = require('mongoose');
+const validator = require('validator');
 
 const { Schema } = mongoose;
 
 const UserSchema = new Schema({
-  username: {
+  name: {
     type: String,
-    unique: true,
-    required: true,
-  },
-  password: {
-    type: String,
-    required: true,
+    required: [true, 'Please tell us your name']
   },
   email: {
     type: String,
-    required: true,
+    unique: true,
+    required: [true, 'Please provide your email'],
+    validate: [validator.isEmail, 'Please provide a valid email']
   },
-  createdAt: {
-    type: Date,
-    default: Date.now,
+  password: {
+    type: String,
+    required: [true, 'Please provide your password'],
+    minlength: 8
   },
+  passwordConfirm: {
+    type: String,
+    required: [true, 'Please confirm your password'],
+    validate: {
+      validator: function (el) {
+        return el === this.password;
+      },
+      message: 'Passwords are not the same!'
+    }
+  }
 });
 
 module.exports = mongoose.model('users', UserSchema);
