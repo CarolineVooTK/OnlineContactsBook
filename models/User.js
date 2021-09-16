@@ -42,6 +42,8 @@ UserSchema.pre('save', async function (next) {
 
   this.password = await argon2.hash(this.password);
   this.passwordConfirm = undefined;
+  // JWT is sometimes issued earlier than saving document so reduced 1 second.
+  this.passwordChangedAt = Date.now() - 1000;
   next();
 });
 
