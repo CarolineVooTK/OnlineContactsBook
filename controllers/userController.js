@@ -51,13 +51,11 @@ const registerUser = async (req, res) => {
     });
   } catch (error) {
     console.log(error);
-    res
-      .status(500)
-      .json({
-        success: false,
-        status: 'fail',
-        message: 'Internal server error'
-      });
+    res.status(500).json({
+      success: false,
+      status: 'fail',
+      message: 'Internal server error'
+    });
   }
 };
 
@@ -67,13 +65,11 @@ const loginUser = async (req, res) => {
   // Simple Validation
   if (!username || !password) {
     // No username or password specify
-    return res
-      .status(400)
-      .json({
-        success: false,
-        status: 'fail',
-        message: 'Missing username and/or password'
-      });
+    return res.status(400).json({
+      success: false,
+      status: 'fail',
+      message: 'Missing username and/or password'
+    });
   }
   try {
     // Check for existing user
@@ -107,13 +103,11 @@ const loginUser = async (req, res) => {
     });
   } catch (error) {
     console.log(error);
-    res
-      .status(500)
-      .json({
-        success: false,
-        status: 'fail',
-        message: 'Internal server error'
-      });
+    res.status(500).json({
+      success: false,
+      status: 'fail',
+      message: 'Internal server error'
+    });
   }
 };
 
@@ -132,13 +126,11 @@ const updatePassword = async (req, res) => {
     return res.status(200).json({ success: true, message: 'Password changed' });
   } catch (error) {
     console.log(error);
-    return res
-      .status(400)
-      .json({
-        success: false,
-        status: 'fail',
-        message: 'Internal server error'
-      });
+    return res.status(400).json({
+      success: false,
+      status: 'fail',
+      message: 'Internal server error'
+    });
   }
 };
 
@@ -153,13 +145,30 @@ const deleteUser = async (req, res) => {
     return res.status(200).json({ success: true, message: 'User deleted' });
   } catch (error) {
     console.log(error);
-    return res
-      .status(400)
-      .json({
-        success: false,
-        status: 'fail',
-        message: 'Internal server error'
-      });
+    return res.status(400).json({
+      success: false,
+      status: 'fail',
+      message: 'Internal server error'
+    });
+  }
+};
+
+const verifyUser = async (req, res) => {
+  try {
+    const user = await User.findById(req.userId).select('-password');
+    if (!user) {
+      return res
+        .status(400)
+        .json({ success: false, status: 'fail', message: 'User not found' });
+    }
+    return res.json({ success: true, message: 'User verified', user });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      success: false,
+      status: 'fail',
+      message: 'Internal server error'
+    });
   }
 };
 
@@ -167,5 +176,6 @@ module.exports = {
   registerUser,
   loginUser,
   updatePassword,
-  deleteUser
+  deleteUser,
+  verifyUser
 };

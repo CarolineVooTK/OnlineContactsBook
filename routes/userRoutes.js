@@ -4,7 +4,8 @@ const {
   registerUser,
   loginUser,
   updatePassword,
-  deleteUser
+  deleteUser,
+  verifyUser
 } = require('../controllers/userController');
 
 const router = express.Router();
@@ -28,5 +29,10 @@ router.put('/update-password', verifyToken, updatePassword);
 // @desc Delete user password
 // @access Private
 router.delete('/delete-user', verifyToken, deleteUser);
+
+// @route GET api/auth/user
+// @desc Check if user is logged in
+// @access Public
+router.get('/', verifyToken, verifyUser);
 
 module.exports = router;
