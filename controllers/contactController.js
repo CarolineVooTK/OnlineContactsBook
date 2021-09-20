@@ -13,7 +13,8 @@ exports.getAllContacts = catchAsync(async (req, res, next) => {
   const contacts = await features.query;
 
   // Send response.
-  res.status(200).json({
+  return res.status(200).json({
+    success: true,
     status: 'success',
     results: contacts.length,
     message: { contacts }
@@ -27,7 +28,8 @@ exports.getContact = catchAsync(async (req, res, next) => {
     return next(new AppError('No contact found with that ID', 404));
   }
 
-  res.status(200).json({
+  return res.status(200).json({
+    success: true,
     status: 'success',
     message: { contact }
   });
@@ -36,7 +38,8 @@ exports.getContact = catchAsync(async (req, res, next) => {
 exports.createContact = catchAsync(async (req, res, next) => {
   const newContact = await Contact.create(req.body);
 
-  res.status(201).json({
+  return res.status(201).json({
+    success: true,
     status: 'success',
     data: { contact: newContact }
   });
@@ -52,7 +55,8 @@ exports.updateContact = catchAsync(async (req, res, next) => {
     return next(new AppError('No contact found with that ID', 404));
   }
 
-  res.status(200).json({
+  return res.status(200).json({
+    success: true,
     status: 'success',
     message: { contact }
   });
@@ -65,7 +69,8 @@ exports.deleteContact = catchAsync(async (req, res, next) => {
     return next(new AppError('No contact found with that ID', 404));
   }
 
-  res.status(204).json({
+  return res.status(204).json({
+    success: true,
     status: 'success',
     message: null
   });

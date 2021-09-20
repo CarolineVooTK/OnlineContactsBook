@@ -12,7 +12,8 @@ exports.getAllCategories = catchAsync(async (req, res, next) => {
     .paginate();
   const categories = await features.query;
 
-  res.status(200).json({
+  return res.status(200).json({
+    success: true,
     status: 'success',
     results: categories.length,
     message: { categories }
@@ -26,7 +27,8 @@ exports.getCategory = catchAsync(async (req, res, next) => {
     return next(new AppError('There is no category with that ID', 404));
   }
 
-  res.status(200).json({
+  return res.status(200).json({
+    success: true,
     status: 'success',
     message: { category }
   });
@@ -34,7 +36,8 @@ exports.getCategory = catchAsync(async (req, res, next) => {
 
 exports.createCategory = catchAsync(async (req, res, next) => {
   const newCategory = await Category.create(req.body);
-  res.status(201).json({
+  return res.status(201).json({
+    success: true,
     status: 'success',
     data: { category: newCategory }
   });
@@ -50,7 +53,8 @@ exports.updateCategory = catchAsync(async (req, res, next) => {
     return next(new AppError('There is no category with that ID', 404));
   }
 
-  res.status(200).json({
+  return res.status(200).json({
+    success: true,
     status: 'success',
     message: { category }
   });
@@ -63,7 +67,8 @@ exports.deleteCategory = catchAsync(async (req, res, next) => {
     return next(new AppError('There is no category with that ID', 404));
   }
 
-  res.status(204).json({
+  return res.status(204).json({
+    success: true,
     status: 'success',
     message: { category }
   });
