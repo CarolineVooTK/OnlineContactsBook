@@ -8,9 +8,11 @@ const registerUser = async (req, res) => {
   // Simple Validation for adequate information
   if (!username || !password || !email) {
     // No username or password specify
-    return res
-      .status(400)
-      .json({ success: false, message: 'Missing username and/or password' });
+    return res.status(400).json({
+      success: false,
+      status: 'fail',
+      message: 'Missing username and/or password'
+    });
   }
 
   try {
@@ -21,7 +23,7 @@ const registerUser = async (req, res) => {
       // Username taken
       return res
         .status(400)
-        .json({ success: false, message: 'Username is taken' });
+        .json({ success: false, status: 'fail', message: 'Username is taken' });
     }
 
     // Create and save new account
@@ -43,12 +45,19 @@ const registerUser = async (req, res) => {
 
     return res.json({
       success: true,
+      status: 'success',
       message: 'User created successfully',
       accessToken
     });
   } catch (error) {
     console.log(error);
-    res.status(500).json({ success: false, message: 'Internal server error' });
+    res
+      .status(500)
+      .json({
+        success: false,
+        status: 'fail',
+        message: 'Internal server error'
+      });
   }
 };
 
@@ -60,7 +69,11 @@ const loginUser = async (req, res) => {
     // No username or password specify
     return res
       .status(400)
-      .json({ success: false, message: 'Missing username and/or password' });
+      .json({
+        success: false,
+        status: 'fail',
+        message: 'Missing username and/or password'
+      });
   }
   try {
     // Check for existing user
@@ -68,7 +81,7 @@ const loginUser = async (req, res) => {
     if (!user) {
       return res
         .status(400)
-        .json({ success: false, message: 'Invalid username' });
+        .json({ success: false, status: 'fail', message: 'Invalid username' });
     }
 
     // Username found check password
@@ -76,7 +89,7 @@ const loginUser = async (req, res) => {
     if (!passwordValid) {
       return res
         .status(400)
-        .json({ success: false, message: 'Invalid password' });
+        .json({ success: false, status: 'fail', message: 'Invalid password' });
     }
 
     // Valid username and password, return access token
@@ -94,7 +107,13 @@ const loginUser = async (req, res) => {
     });
   } catch (error) {
     console.log(error);
-    res.status(500).json({ success: false, message: 'Internal server error' });
+    res
+      .status(500)
+      .json({
+        success: false,
+        status: 'fail',
+        message: 'Internal server error'
+      });
   }
 };
 
@@ -105,7 +124,7 @@ const updatePassword = async (req, res) => {
   if (!password) {
     return res
       .status(400)
-      .json({ success: false, message: 'Password is missing' });
+      .json({ success: false, status: 'fail', message: 'Password is missing' });
   }
   const newHashedPassword = await argon2.hash(password);
   try {
@@ -115,7 +134,11 @@ const updatePassword = async (req, res) => {
     console.log(error);
     return res
       .status(400)
-      .json({ success: false, message: 'Internal server error' });
+      .json({
+        success: false,
+        status: 'fail',
+        message: 'Internal server error'
+      });
   }
 };
 
@@ -125,14 +148,18 @@ const deleteUser = async (req, res) => {
     if (!deletedUser) {
       return res
         .status(401)
-        .json({ success: false, message: 'User not found' });
+        .json({ success: false, status: 'fail', message: 'User not found' });
     }
     return res.status(200).json({ success: true, message: 'User deleted' });
   } catch (error) {
     console.log(error);
     return res
       .status(400)
-      .json({ success: false, message: 'Internal server error' });
+      .json({
+        success: false,
+        status: 'fail',
+        message: 'Internal server error'
+      });
   }
 };
 
