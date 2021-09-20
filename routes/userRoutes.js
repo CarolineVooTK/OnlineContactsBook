@@ -30,9 +30,9 @@ router.put('/update-password', verifyToken, updatePassword);
 // @access Private
 router.delete('/delete-user', verifyToken, deleteUser);
 
-// @route GET api/auth/user
+// @route GET api/user/auth
 // @desc Check if user is logged in
 // @access Public
-router.get('/', verifyToken, verifyUser);
+router.get('/auth', verifyToken, verifyUser);
 
 module.exports = router;
