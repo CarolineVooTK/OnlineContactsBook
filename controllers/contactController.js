@@ -69,9 +69,9 @@ exports.deleteContact = catchAsync(async (req, res, next) => {
     return next(new AppError('No contact found with that ID', 404));
   }
 
-  return res.status(204).json({
+  return res.status(200).json({
     success: true,
     status: 'success',
-    message: null
+    message: { contact }
   });
 });
