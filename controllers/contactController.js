@@ -41,7 +41,7 @@ exports.createContact = catchAsync(async (req, res, next) => {
   return res.status(201).json({
     success: true,
     status: 'success',
-    data: { contact: newContact }
+    message: { contact: newContact }
   });
 });
 
