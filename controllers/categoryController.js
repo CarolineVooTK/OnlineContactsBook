@@ -39,7 +39,7 @@ exports.createCategory = catchAsync(async (req, res, next) => {
   return res.status(201).json({
     success: true,
     status: 'success',
-    data: { category: newCategory }
+    message: { category: newCategory }
   });
 });
 
