@@ -7,7 +7,7 @@ const router = express.Router();
 // Authenticate access
 // router.use(verifyToken);
 
-// @route POST/GET api/contact/
+// @route POST/GET api/contacts/
 // @desc create contact or get all contacts
 // @access Private
 router
@@ -15,13 +15,13 @@ router
   .post(contactController.createContact)
   .get(contactController.getAllContacts);
 
-// @route GET/PUT/DELETE api/contact/:id
+// @route GET/PUT/DELETE api/contacts/:id
 // @desc get, update, or delete a contact
 // @access Private
 router
   .route('/:id')
   .get(contactController.getContact)
-  .patch(contactController.updateContact)
+  .put(contactController.updateContact)
   .delete(contactController.deleteContact);
 
 module.exports = router;
