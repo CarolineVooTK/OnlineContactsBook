@@ -7,7 +7,7 @@ const router = express.Router();
 // Authentication access
 // router.use(verifyToken);
 
-// @route POST|GET api/categories/create
+// @route POST|GET api/categories
 // @desc create category or get categories
 // @access Private
 router
