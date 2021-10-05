@@ -67,7 +67,7 @@ exports.deleteCategory = catchAsync(async (req, res, next) => {
     return next(new AppError('There is no category with that ID', 404));
   }
 
-  return res.status(204).json({
+  return res.status(200).json({
     success: true,
     status: 'success',
     message: { category }
