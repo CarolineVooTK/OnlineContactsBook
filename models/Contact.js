@@ -45,8 +45,8 @@ const ContactSchema = new mongoose.Schema({
     validate: [validator.isAscii, 'Company must only contain ASCII characters.']
   },
   category: {
-    type: [String],
-    default: []
+    type: String,
+    default: '#FFFFFF'
   },
   // owner: {
   //   type: mongoose.Schema.Types.ObjectId,
