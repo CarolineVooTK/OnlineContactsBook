@@ -53,10 +53,14 @@ const ContactSchema = new mongoose.Schema({
   //   ref: 'users',
   //   required: [true, 'A contact must have an owner']
   // },
+  numViewed: {
+    type: Number,
+    default: 0,
+    min: 0
+  },
   lastViewed: {
     type: Date,
     default: Date.now,
-    // TODO: to update when getting a contact
     validate: [validator.isDate, 'Invalid date ({VALUE})']
   },
   createdAt: {

@@ -28,10 +28,15 @@ exports.getContact = catchAsync(async (req, res, next) => {
     return next(new AppError('No contact found with that ID', 404));
   }
 
+  const updatedContact = await Contact.findOneAndUpdate(
+    { _id: req.params.id },
+    { $set: { numViewed: contact.numViewed + 1, lastViewed: Date.now() } },
+    { new: true, upsert: true }
+  );
   return res.status(200).json({
     success: true,
     status: 'success',
-    message: { contact }
+    message: { contact: updatedContact }
   });
 });
 
