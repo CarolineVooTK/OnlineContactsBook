@@ -1,13 +1,13 @@
 const express = require('express');
-// const verifyToken = require('../middleware/auth');
+const authController = require('../controllers/authController');
 const contactController = require('../controllers/contactController');
 
 const router = express.Router();
 
-// Authenticate access
-// router.use(verifyToken);
+// Protect access
+router.use(authController.protect);
 
-// @route POST/GET api/contacts/
+// @route POST/GET api/contact/
 // @desc create contact or get all contacts
 // @access Private
 router
@@ -15,13 +15,13 @@ router
   .post(contactController.createContact)
   .get(contactController.getAllContacts);
 
-// @route GET/PUT/DELETE api/contacts/:id
+// @route GET/PATCH/DELETE api/contact/:id
 // @desc get, update, or delete a contact
 // @access Private
 router
   .route('/:id')
   .get(contactController.getContact)
-  .put(contactController.updateContact)
+  .patch(contactController.updateContact)
   .delete(contactController.deleteContact);
 
 module.exports = router;

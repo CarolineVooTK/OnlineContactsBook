@@ -1,38 +1,37 @@
 const express = require('express');
-const verifyToken = require('../middleware/auth');
-const {
-  registerUser,
-  loginUser,
-  updatePassword,
-  deleteUser,
-  verifyUser
-} = require('../controllers/userController');
+const authController = require('../controllers/authController');
+// const userController = require('../controllers/userController');
 
 const router = express.Router();
 
 // @route POST api/user/register
-// @desc register user
+// @desc user registers
 // @access Public
-router.post('/register', registerUser);
+router.post('/register', authController.register);
 
 // @route POST api/user/login
-// @desc Login user
+// @desc user logins
 // @access Public
-router.post('/login', loginUser);
+router.post('/login', authController.login);
+
+// @route POST api/user/forgotPassword
+// @desc user forgets password and requests for password reset token
+// @access Public
+router.post('/forgotPassword', authController.forgotPassword);
+
+// @route PATCH api/user/resetPassword/:token
+// @desc user resets password
+// @access Public
+router.patch('/resetPassword/:token', authController.resetPassword);
 
 // @route PUT api/user/update-password
 // @desc Update user password
 // @access Private
-router.put('/update-password', verifyToken, updatePassword);
+// router.put('/update-password', protect, updatePassword);
 
 // @route DELETE api/user/delete-user
 // @desc Delete user password
 // @access Private
-router.delete('/delete-user', verifyToken, deleteUser);
-
-// @route GET api/user/auth
-// @desc Check if user is logged in
-// @access Public
-router.get('/auth', verifyToken, verifyUser);
+// router.delete('/delete-user', protect, deleteUser);
 
 module.exports = router;
