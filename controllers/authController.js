@@ -40,8 +40,10 @@ const createAndSendToken = (id, res) => {
 // Test function TODO: delete later
 exports.register = catchAsync(async (req, res, next) => {
   const newUser = await User.create({
+    name: req.body.name,
     email: req.body.email,
-    password: req.body.password
+    password: req.body.password,
+    passwordConfirm: req.body.passwordConfirm
   });
 
   const token = signToken(newUser.id);
