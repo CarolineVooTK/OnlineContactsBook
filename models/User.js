@@ -4,10 +4,6 @@ const mongoose = require('mongoose');
 const validator = require('validator');
 
 const UserSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: [true, 'Please tell us your name']
-  },
   email: {
     type: String,
     unique: true,
@@ -20,16 +16,7 @@ const UserSchema = new mongoose.Schema({
     minlength: 8,
     select: false
   },
-  passwordConfirm: {
-    type: String,
-    required: [true, 'Please confirm your password'],
-    validate: {
-      validator: function (el) {
-        return el === this.password;
-      },
-      message: 'Passwords are not the same!'
-    }
-  },
+
   passwordChangedAt: Date,
   passwordResetToken: String,
   passwordResetExpires: Date
