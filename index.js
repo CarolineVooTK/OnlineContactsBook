@@ -1,5 +1,6 @@
 const dotenv = require('dotenv');
 const mongoose = require('mongoose');
+const app = require('./app');
 
 // Handle all uncaught exceptions.
 process.on('uncaughtException', err => {
@@ -10,7 +11,6 @@ process.on('uncaughtException', err => {
 });
 
 dotenv.config({ path: './config.env' });
-const app = require('./app');
 
 const username = process.env.DB_USERNAME;
 const password = process.env.DB_PASSWORD;
