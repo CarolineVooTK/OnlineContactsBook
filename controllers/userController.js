@@ -1,5 +1,4 @@
 const argon2 = require('argon2');
-const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
 const updatePassword = async (req, res) => {
@@ -41,8 +40,6 @@ const deleteUser = async (req, res) => {
 };
 
 module.exports = {
-  registerUser,
-  loginUser,
   updatePassword,
   deleteUser
 };
