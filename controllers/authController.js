@@ -32,6 +32,7 @@ const createAndSendToken = (id, res) => {
 
   // Send response.
   res.status(200).json({
+    success: true,
     status: 'success',
     token
   });
@@ -176,4 +177,11 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
 
   // 4) Log user in. TODO: OR MAYBE NOT WHICH IS MORE SECURE.
   createAndSendToken(user.id, res);
+});
+
+exports.isUserLoggedIn = catchAsync(async (req, res, next) => {
+  const user = await User.findById(req.userId).select('-password');
+  if (!user)
+    return res.status(400).json({ success: false, message: 'User not found' });
+  res.json({ success: true, user });
 });

@@ -34,4 +34,11 @@ router.patch('/resetPassword/:token', authController.resetPassword);
 // @access Private
 // router.delete('/delete-user', protect, deleteUser);
 
+// @route GET api/user/auth
+// @desc check if user is logged in
+// @access Private
+router
+  .route('/auth')
+  .get(authController.isUserLoggedIn);
+  
 module.exports = router;
