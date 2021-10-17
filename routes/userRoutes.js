@@ -39,7 +39,6 @@ router.patch('/resetPassword/:token', authController.resetPassword);
 // @access Private
 router
   .route('/auth')
-  .use(authController.protect)
-  .get(authController.isUserLoggedIn);
+  .get(authController.protect, authController.isUserLoggedIn);
 
 module.exports = router;
