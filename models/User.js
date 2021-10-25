@@ -16,7 +16,6 @@ const UserSchema = new mongoose.Schema({
     minlength: 8,
     select: false
   },
-
   passwordChangedAt: Date,
   passwordResetToken: String,
   passwordResetExpires: Date

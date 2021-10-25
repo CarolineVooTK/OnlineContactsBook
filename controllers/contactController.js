@@ -33,6 +33,7 @@ exports.getContact = catchAsync(async (req, res, next) => {
     { $set: { numViewed: contact.numViewed + 1, lastViewed: Date.now() } },
     { new: true, upsert: true }
   );
+
   return res.status(200).json({
     success: true,
     status: 'success',
